@@ -1,0 +1,9 @@
+venv/
+
+backup/
+
+*.pyc
+__pycache__/
+
+flaskr/credentials.py
+

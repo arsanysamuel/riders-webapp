@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Join a Ride
+{% endblock %}
+
+{% block main %}
+    <h1>Join a ride</h1><br>
+
+    <div id="rides-list-div">
+        {% if rides and rides|length > 0 %}
+            <div class="list-group viewport-container">
+                {% for ride in rides %}
+                    <div class="list-group-item list-group-item-action border border-1 border-secondary">
+                        <!-- Ride id value -->
+                        <input class="ride-id" type="hidden" value="{{ ride["id"] }}">
+
+                        <div class="ride-item my-2" data-bs-toggle="collapse" href="#ride-{{ ride["id"] }}-content" aria-expanded="false" aria-controls="ride-content">
+                            <div class="d-inline-flex justify-content-between w-100">
+                                <span class="collapse-icon"><i class="fa-solid fa-chevron-down"></i></span>
+                                <span class="mx-2">
+                                    <h6 class=""><b>{{ ride["weekday"] }}: {{ ride["date"] }}</h6>
+                                </span>
+                            </div>
+                            <h5>{{ ride["type"] }}</b></h5>
+
+                            <!-- Collapsing section -->
+                            <div class="collapse" id="ride-{{ ride["id"] }}-content">
+                                <hr>
+
+                                <!-- Notes -->
+                                {% if ride["ride_notes"]|length > 0 %}
+                                    <p>{{ ride["ride_notes"] }}</p>
+                                    <hr>
+                                {% endif %}
+
+                                <!-- Route -->
+                                <p>{{ ride["route"]|route_format }}</p>
+                                <hr>
+
+                                <!-- Info -->
+                                <p>
+                                    Maximum speed: {{ ride["max_speed"] }}km/h<br>
+                                    Minimum speed: {{ ride["min_speed"] }}km/h
+                                </p>
+                                <p>
+                                    Distance: {{ ride["distance"] }}km
+                                </p>
+
+                                <!-- Leader -->
+                                <hr>
+                                <p class="leader-p">
+                                    Leader: {{ ride["leader"].arabic_username }}
+                                </p>
+
+                                <!-- Participants -->
+                                {% if ride["participants"] %}
+                                    <div class="d-flex justify-content-center">
+                                        <ol class="participants-list" dir="auto">
+                                            {% for p in ride["participants"] %}
+                                                <li>{{ p }}</li>
+                                            {% endfor %}
+                                        </ol>
+                                    </div>
+                                {% else %}
+                                    <p class="participants-placeholder">
+                                        No other participants yet.
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Ride button controls -->
+                        <div class="d-flex justify-content-center ride-btns-div mb-3 mt-5">
+                            <div class="row gx-auto gy-3">
+                                {% if ride["joined"] %}
+                                        <button value="{{ ride["id"] }}" type="button" class="btn btn-secondary btn-lg leave-btn">Leave</button>
+                                    {% if ride["leading"] %}
+                                        <button value="{{ ride["id"] }}" type="button" class="btn btn-danger btn-lg cancel-btn">Cancel</button>
+                                    {% endif %}
+                                {% else %}
+                                        <button value="{{ ride["id"] }}" type="button" class="btn btn-success btn-lg join-btn">Join</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h3 class="text-muted">Sorry, there are no upcoming rides currently. Check back later or <a href="/create">create</a> a new ride.</h3><br>
+        {% endif %}
+    </div>
+
+
+    <!-- Last participant leaving modal -->
+    <div class="modal" id="last-leave-warning" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Warning!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Ride will be canceled due to the lack of participants</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

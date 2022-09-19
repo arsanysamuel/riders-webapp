@@ -1,0 +1,79 @@
+/* Size for brand */
+body
+{
+    background-color: #F0F8FF;  /* Alice blue */
+}
+
+nav .navbar-brand
+{
+    font-size: medium;
+    color: white;
+    font-weight: bold;
+    max-width: 50%;
+}
+
+.nav-link
+{
+    color: white;
+}
+
+.navbar-toggler
+{
+    border-color: white;
+}
+
+.navbar-toggler .navbar-toggler-icon
+{
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1.0)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.nav-bar
+{
+    color: white;
+}
+
+.nav-bar:hover
+{
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+.form-label
+{
+    font-size: large;
+}
+
+.form-check-label
+{
+    display: inline-block;
+}
+
+.required:after
+{
+    content: " *";
+    color: red;
+}
+
+.form-check
+{
+    width: auto;
+    display: inline-block;
+}
+
+.viewport-container  /* auto adjust width depending on the viewport and content */
+{
+    min-width: 50%;
+    max-width: 100%;
+}
+
+.card
+{
+    /*width: 50%;*/
+    /*max-width: 100%;*/
+}
+
+.card-number
+{
+    font-size: xxx-large;
+}
+

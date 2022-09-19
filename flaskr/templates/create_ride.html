@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create Ride
+{% endblock %}
+
+{% block main %}
+    <h1>Create a new ride</h1><br>
+    <form action="/create" id="create-ride-form" method="post">
+
+        <div class="mb-3">
+            <label class="form-label" for="ride-header">Ride notes:</label><br>
+            <textarea class="form-control mx-auto w-auto" dir="auto" id="ride-header" maxlength="255" name="ride-header" placeholder="Leave a word for the team."></textarea>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="ride-date">Ride date:</label><br>
+            <input autofocus class="form-control mx-auto w-auto" id="ride-date" min={{ today }} name="date" required type="date">
+            <input id="ride-weekday" name="ride-weekday" type="hidden">
+            <div id="weekday-footnote" class="form-text"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="ride-type">Ride type:</label><br>
+            <input autocomplete="on" class="form-control mx-auto w-auto" dir="auto" id="ride-type" name="ride-type" placeholder="ex. صباحي داخلي" type="text">
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="assembly_time">Assembly time:</label><br>
+            <input class="form-control mx-auto w-auto" id="assembly_time" name="assembly_time" required type="time">
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="moving-time">Moving time:</label><br>
+            <input class="form-control mx-auto w-auto" id="moving_time" name="moving_time" required type="time">
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="min-speed">Minimum speed:</label><br>
+            <input class="form-control mx-auto w-auto numbers" id="min-speed" maxlength="2" name="min-speed" placeholder="Min. speed" required type="text" pattern={{ regex["speed"] }}>
+            <div id="min-speed-footnote" class="form-text">Km/h</div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="max-speed">Maximum speed:</label><br>
+            <input class="form-control mx-auto w-auto numbers" id="max-speed" maxlength="2" name="max-speed" placeholder="Max. speed" required type="text" pattern={{ regex["speed"] }}>
+            <div id="max-speed-footnote" class="form-text">Km/h</div>
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="form-label required" for="distance">Distance:</label><br>
+            <input class="form-control mx-auto w-auto numbers" id="distance" maxlength="3" name="distance" placeholder="Distance" required type="text" pattern={{ regex["distance"] }}>
+            <div id="distance-footnote" class="form-text">Km</div>
+        </div>
+            <div class="d-inline-flex justify-content-center">
+                <div class="border border-1 border-secondary rounded-3 py-3 px-5">
+                    <label class="form-label required">Route:</label><br>
+
+                    <div class="mb-3 mx-auto" id="route-div">
+                        <h3 class="text-muted" id="route-placeholder">No route yet.</h3>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="d-inline-flex justify-content-center">
+                            <input autocomplete="on" class="form-control mx-auto w-auto" dir="auto" id="segment-input" placeholder="ex. سان ستيفانو" type="text">
+                            <button class="btn btn-outline-primary btn-sm mx-1" id="add-segment" type="button">Add</button>
+                        </div>
+                    </div>
+                    <div id="route-footnote" class="form-text">Add route segments.</div>
+                </div>
+            </div>
+        <div class="mb-3 mx-auto">
+
+        </div>
+
+        <div class="mb-3 form-check">
+            <input class="form-check-input" id="accept" name="accept" required type="checkbox">
+            <label class="form-check-label" for="accept">
+                I've read and accept the ride <a data-bs-target="#rulesModal" data-bs-toggle="modal" href="#">rules</a>.
+            </label>
+        </div>
+
+        <br>
+
+        <button class="btn btn-primary btn-lg" id="create-ride-button" type="submit">Create ride</button>
+    </form>
+
+    <!-- Modal div -->
+    <div class="modal fade" id="rulesModal" tabindex="-1" role="dialog" aria-labelledby="Rules Modal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rules-modal-title">Rules</h5>
+                    <button type="button" class="btn btn-danger close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">  <!-- To be imported from separate file-->
+                    <h1>
+                        Rules
+                    </h1>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu nisl nunc. Integer semper elementum euismod. Aenean sit amet mi leo. Donec sed metus vel ligula interdum vehicula et vel lectus. Vestibulum mattis augue viverra justo bibendum, eu tempus erat pharetra. Aliquam nec justo quis odio ultricies pretium. Ut quam dui, blandit non faucibus ac, commodo quis elit. Etiam posuere iaculis odio ac egestas. Proin elit ligula, egestas vitae tempor eu, finibus at magna. Quisque id orci turpis. Ut cursus, ipsum et suscipit placerat, nisi neque eleifend mi, dignissim porta tortor justo et sapien. Phasellus at faucibus lorem, ac dictum odio. Aliquam luctus volutpat euismod. Aenean eget purus eget nunc venenatis consectetur. Integer placerat nulla elit, et volutpat urna laoreet gravida. Sed pharetra purus et lorem tincidunt pretium.
+
+                        Cras a justo volutpat, venenatis nulla id, fermentum quam. Mauris et felis odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum vitae urna volutpat, pretium metus a, eleifend nisl. Maecenas pretium ante vitae auctor consequat. Proin sed arcu et nulla varius sagittis nec vitae lacus. Ut eget lectus et augue tempor bibendum vel eu lorem. Curabitur consequat velit non nisl gravida blandit. Praesent vestibulum nec mauris et vestibulum. Sed ipsum diam, sodales a sapien a, pellentesque tincidunt mi. Fusce ornare ipsum a quam bibendum ornare. Curabitur placerat, nisl quis aliquet eleifend, eros mauris faucibus turpis, malesuada placerat eros nunc sit amet diam. Aenean eu tempor lacus. Aenean libero magna, commodo sit amet mattis vel, porta in erat.
+
+                        Sed finibus aliquet condimentum. Proin lobortis congue dolor id sodales. Morbi efficitur eu dui ut consectetur. Aliquam erat volutpat. Nulla facilisi. Suspendisse potenti. Curabitur commodo dolor laoreet auctor pretium. Fusce non viverra dui. Aliquam egestas mi nunc, eu consectetur dui ullamcorper eu. Suspendisse efficitur elementum lorem, cursus pulvinar sem dapibus eget.
+
+                        Vivamus accumsan justo vitae nisl porta lacinia. Praesent vestibulum aliquam turpis nec imperdiet. Vestibulum interdum ornare dui vehicula pharetra. Integer ullamcorper nisi enim, aliquam lacinia nibh fringilla at. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec faucibus bibendum purus condimentum efficitur. Nulla vel ante quis arcu sagittis laoreet. Nullam efficitur felis eget orci iaculis, eget consectetur nulla fermentum. Mauris pharetra urna eu tellus pulvinar dapibus sed id lacus. Donec in semper dui. Nunc eu nunc et diam imperdiet ornare. Etiam sagittis tempor sollicitudin.
+
+                        Donec et vestibulum ipsum, vitae tempus ipsum. Proin sed iaculis est, sed lacinia diam. Phasellus libero metus, dignissim scelerisque maximus nec, consequat at ligula. Nulla facilisi. Aliquam vitae nisl non velit lobortis tristique quis a arcu. Quisque lobortis condimentum justo nec condimentum. Suspendisse faucibus neque non quam cursus posuere. Nulla blandit faucibus leo, quis commodo nisl vehicula quis. Vestibulum vestibulum, diam vitae vehicula eleifend, ipsum sem posuere dolor, et vehicula nunc magna sed dui. Sed venenatis vulputate lorem eu convallis. Sed ac urna vel turpis vehicula sodales. Sed feugiat dolor sed dignissim posuere. Morbi sollicitudin tortor risus, quis pellentesque lorem ultrices ac.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {#<button type="button" class="btn btn-primary"></button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

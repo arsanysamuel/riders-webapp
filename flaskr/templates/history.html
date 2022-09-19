@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <h1>Rides history</h1><br>
+
+    {% if rides and rides|length > 0 %}
+        <div class="list-group viewport-container">
+            {% for ride in rides %}
+                <div class="list-group-item list-group-item-action border border-1 border-secondary">
+
+                    <div class="ride-item my-2" data-bs-toggle="collapse" href="#ride-{{ ride["id"] }}-content" aria-expanded="false" aria-controls="ride-content">
+                        <div class="d-inline-flex justify-content-between w-100">
+                            <span class="collapse-icon"><i class="fa-solid fa-chevron-down"></i></span>
+                            <span class="mx-2">
+                                <h6 class=""><b>{{ ride["weekday"] }}: {{ ride["date"] }}</h6>
+                            </span>
+                        </div>
+                        <h5>{{ ride["type"] }}</b></h5>
+
+                        <!-- Collapsing section -->
+                        <div class="collapse" id="ride-{{ ride["id"] }}-content">
+                            <hr>
+
+                            <!-- Notes -->
+                            {% if ride["ride_notes"]|length > 0 %}
+                                <p>{{ ride["ride_notes"] }}</p>
+                                <hr>
+                            {% endif %}
+
+                            <!-- Route -->
+                            <p>{{ ride["route"]|route_format }}</p>
+                            <hr>
+
+                            <!-- Info -->
+                            <p>
+                                Maximum speed: {{ ride["max_speed"] }}km/h<br>
+                                Minimum speed: {{ ride["min_speed"] }}km/h
+                            </p>
+                            <p>
+                                Distance: {{ ride["distance"] }}km
+                            </p>
+
+                            <!-- Leader -->
+                            <hr>
+                            <p class="leader-p">
+                                Leader: {{ ride["leader"].arabic_username }}
+                            </p>
+
+                            <!-- Participants -->
+                            {% if ride["participants"] %}
+                                <div class="d-flex justify-content-center">
+                                    <ol class="participants-list" dir="auto">
+                                        {% for p in ride["participants"] %}
+                                            <li>{{ p }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <h3 class="text-muted">You havn't been on any rides yet, you can <a href="/rides">join</a> or <a href="/create">create</a> a ride to add to your history.</h3><br>
+    {% endif %}
+
+{% endblock %}
