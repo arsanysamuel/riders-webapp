@@ -2,8 +2,9 @@ import sys
 import re
 from functools import wraps
 
-from config import REGEX
 from flask import render_template, redirect, request, url_for, g, session, Markup
+
+from modules.regex import REGEX
 
 
 def error(message, code=400, img="https://i.imgur.com/CsCgN7Ll.png"):
@@ -35,7 +36,6 @@ def route_format(s):
     """Formats route segments with Awsome Fonts icons"""
     arabic = re.compile(REGEX["arabic"])
     if len(arabic.findall(s)) > 0:
-        # return Markup(s.replace("|", '  <i class="fa-solid fa-arrow-left"></i>  '))
         return Markup(s.replace("|", ' <i class="fa-solid fa-arrow-left"></i> '))
     return Markup(s.replace("|", ' <i class="fa-solid fa-arrow-right"></i> '))
 

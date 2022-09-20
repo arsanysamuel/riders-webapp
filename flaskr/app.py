@@ -12,6 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from modules.database import db, User, Ride, Lead, Participation
 from modules.helpers import error, login_required, route_format
+from modules.regex import REGEX
 
 try:  # just for my local tests
     from credentials import secret_key
@@ -25,16 +26,6 @@ except ModuleNotFoundError:
 
 """Global Variables"""
 WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-REGEX = {
-        "username": r"^[A-Za-z0-9]+$",
-        "phone": r"^01\d{9}",
-        "email": r"^[^\.\s\n\\][^\n\s\\]*@[^\.\s\n\\]+\.[^\.\s\n\\]+",
-        "password": r"^.{8,52}$",
-        "speed": r"^\d{2}$",
-        "distance": r"^\d{1,3}$",
-        "arabic" : r"[\u0600-\u06FF\s]+"
-        }
 
 """App init and config"""
 app = Flask(__name__)
