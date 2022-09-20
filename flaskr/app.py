@@ -10,7 +10,6 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 
-import config
 from modules.database import db, User, Ride, Lead, Participation
 from modules.helpers import error, login_required, route_format
 
