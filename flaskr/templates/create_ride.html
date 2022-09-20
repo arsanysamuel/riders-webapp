@@ -10,7 +10,7 @@
 
         <div class="mb-3">
             <label class="form-label" for="ride-header">Ride notes:</label><br>
-            <textarea class="form-control mx-auto w-auto" dir="auto" id="ride-header" maxlength="255" name="ride-header" placeholder="Leave a word for the team."></textarea>
+            <textarea class="form-control mx-auto w-auto" dir="auto" id="ride-header" maxlength="255" name="ride-header" placeholder="Leave a word for the team."></textarea>  <!-- maxlength will be changed after database fix -->
         </div>
 
         <div class="form-group mb-3">
@@ -91,9 +91,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="rules-modal-title">Rules</h5>
-                    <button type="button" class="btn btn-danger close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">  <!-- To be imported from separate file-->
                     <h1>

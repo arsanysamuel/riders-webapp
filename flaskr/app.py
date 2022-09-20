@@ -166,6 +166,21 @@ def user_exists():
     return jsonify({"found": (len(User.query.filter_by(username=input_user).all()) > 0)})
 
 
+@app.route("/match-email")
+def email_exists():
+    """ AJAX: request to check for duplicates in Email """
+    input_user = request.args.get("input_email")
+    return jsonify({"found": (len(User.query.filter_by(email=input_user).all()) > 0)})
+
+
+@app.route("/match-phone")
+def phone_exists():
+    """ AJAX: request to check for duplicates in Phone Number """
+    input_user = request.args.get("input_phone")
+    input_user = "+2" + input_user
+    return jsonify({"found": (len(User.query.filter_by(phone=input_user).all()) > 0)})
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """ Login route """

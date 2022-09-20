@@ -90,6 +90,67 @@ $(document).ready(function() {
         });
     });
 
+    // AJAX: check for email duplicates
+    $("#register-email").on("change", function() {
+        let val = $(this).val()
+        $.ajax({
+            url: "/match-email",
+            data: {
+                input_email: val
+            },
+            type: "GET",
+            datatype: "json"
+        })
+
+        // If the request succeeds, the response is passed to the function
+        .done(function(response) {
+            if (response["found"]) {
+                $("#register-email")[0].setCustomValidity("Email address already exists!");  // turns out it returns an array
+            } else {
+                $("#register-email")[0].setCustomValidity("");
+            }
+        })
+
+        // Code to run if the request fails; the raw request and
+        // status codes are passed to the function
+        .fail(function(xhr, status, errorThrown) {
+            alert("Sorry, there was a problem!");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        });
+    });
+
+    // AJAX: check for phone number duplicates
+    $("#register-phone").on("change", function() {
+        let val = $(this).val()
+        $.ajax({
+            url: "/match-phone",
+            data: {
+                input_phone: val
+            },
+            type: "GET",
+            datatype: "json"
+        })
+
+        // If the request succeeds, the response is passed to the function
+        .done(function(response) {
+            if (response["found"]) {
+                $("#register-phone")[0].setCustomValidity("Phone number already exists!");  // turns out it returns an array
+            } else {
+                $("#register-phone")[0].setCustomValidity("");
+            }
+        })
+
+        // Code to run if the request fails; the raw request and
+        // status codes are passed to the function
+        .fail(function(xhr, status, errorThrown) {
+            alert("Sorry, there was a problem!");
+            console.log("Error: " + errorThrown);
+            console.log("Status: " + status);
+            console.dir(xhr);
+        });
+    });
 
     /* ----------------------------------- Create Ride -----------------------------------  */
 
