@@ -14,18 +14,28 @@ import config
 from modules.database import db, User, Ride, Lead, Participation
 from modules.helpers import error, login_required, route_format
 
-try:
+try:  # just for my local tests
     from credentials import secret_key
+    from config import DATABASE_URI
     SECRET_KEY = secret_key
+    DATABASE_URL = DATABASE_URI
 except ModuleNotFoundError:
     SECRET_KEY = os.environ["SECRET_KEY"]
+    DATABASE_URL = os.environ["DATABASE_URL"]
 
 
 """Global Variables"""
 WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-# Database URL
-DATABASE_URL = os.environ["DATABASE_URL"] if os.environ.get("DATABASE_URL") else config.DATABASE_URI
+REGEX = {
+        "username": r"^[A-Za-z0-9]+$",
+        "phone": r"^01\d{9}",
+        "email": r"^[^\.\s\n\\][^\n\s\\]*@[^\.\s\n\\]+\.[^\.\s\n\\]+",
+        "password": r"^.{8,52}$",
+        "speed": r"^\d{2}$",
+        "distance": r"^\d{1,3}$",
+        "arabic" : r"[\u0600-\u06FF\s]+"
+        }
 
 """App init and config"""
 app = Flask(__name__)
@@ -108,24 +118,24 @@ def register():
         accepted = request.form.get("accept")
 
         # Check username
-        username_re = re.compile(config.REGEX["username"])
+        username_re = re.compile(REGEX["username"])
         if not username_re.fullmatch(username):
             return error("Invalid Username", 400)
         elif len(User.query.filter_by(username=username).all()) > 0:
             return error("Username already exists", 400)
 
         # Check phone number
-        phone_re = re.compile(config.REGEX["phone"])
+        phone_re = re.compile(REGEX["phone"])
         if not phone_re.fullmatch(phone):
             return error("Invalid phone number format", 400)
 
         # Check email
-        email_re = re.compile(config.REGEX["email"])
+        email_re = re.compile(REGEX["email"])
         if not email_re.fullmatch(email):
             return error("Invalid email format", 400)
 
         # Check password
-        password_re = re.compile(config.REGEX["password"])
+        password_re = re.compile(REGEX["password"])
         if not password_re.fullmatch(password):
             return error("Invalid password, try again.", 400)
         elif password != confirmation:
@@ -156,7 +166,7 @@ def register():
         return redirect("/")
 
     else:
-        return render_template("auth/register.html", regex=config.REGEX)
+        return render_template("auth/register.html", regex=REGEX)
 
 
 @app.route("/match-username")
@@ -267,7 +277,7 @@ def create():
 
     else:
         today = datetime.timedelta(days=1) + datetime.date.today()
-        return render_template("create_ride.html", today=today, regex=config.REGEX)
+        return render_template("create_ride.html", today=today, regex=REGEX)
 
 
 @app.route("/rides")
