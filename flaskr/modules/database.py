@@ -1,5 +1,8 @@
+import sys
 import time
 from flask_sqlalchemy import SQLAlchemy
+
+sys.path.insert(0, "..")  # adding the parent directory to the path to import app
 
 db = SQLAlchemy()
 

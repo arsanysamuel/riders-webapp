@@ -1,6 +1,7 @@
 """
 Cycling rides web app
 """
+import os
 import time
 import datetime
 import re
@@ -18,6 +19,9 @@ from modules.helpers import error, login_required, route_format
 """Global Variables"""
 WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+# Database URL
+DATABASE_URL = os.environ["DATABASE_URL"] if os.environ.get("DATABASE_URL") else config.DATABASE_URI
+
 
 """App init and config"""
 app = Flask(__name__)
@@ -28,7 +32,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 # Configuring session
 app.config["SECRET_KEY"] = secret_key
 app.config["SESSION_PERMANENT"] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = config.DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SESSION_TYPE"] = "sqlalchemy"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  # will emit a warning: https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/?highlight=sqlalchemy_track_modifications
 
