@@ -22,6 +22,8 @@ WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday
 # Database URL
 DATABASE_URL = os.environ["DATABASE_URL"] if os.environ.get("DATABASE_URL") else config.DATABASE_URI
 
+# Secret key
+SECRET_KEY = os.environ["SECRET_KEY"] if os.environ.get("SECRET_KEY") else secret_key
 
 """App init and config"""
 app = Flask(__name__)
@@ -30,7 +32,7 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configuring session
-app.config["SECRET_KEY"] = secret_key
+app.config["SECRET_KEY"] = SECRET_KEY
 app.config["SESSION_PERMANENT"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config["SESSION_TYPE"] = "sqlalchemy"
