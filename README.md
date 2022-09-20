@@ -46,6 +46,12 @@ db_password = "password"
 secret_key = ""  # paste the generated hex into the string
 ```
 
+OR set credentials as environment variables:
+```
+$ export SECRET_KEY=  # paste the generated hex
+$ export DATABASE_URL=  # your database URL
+```
+
 - Run the database module to create the database tables, make sure that your database server is running:
 ```
 $ cd flaskr/modules/

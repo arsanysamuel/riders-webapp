@@ -11,9 +11,14 @@ from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import config
-from credentials import secret_key
 from modules.database import db, User, Ride, Lead, Participation
 from modules.helpers import error, login_required, route_format
+
+try:
+    from credentials import secret_key
+    SECRET_KEY = secret_key
+except ModuleNotFoundError:
+    SECRET_KEY = os.environ["SECRET_KEY"]
 
 
 """Global Variables"""
@@ -21,9 +26,6 @@ WEEKDAYS_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday
 
 # Database URL
 DATABASE_URL = os.environ["DATABASE_URL"] if os.environ.get("DATABASE_URL") else config.DATABASE_URI
-
-# Secret key
-SECRET_KEY = os.environ["SECRET_KEY"] if os.environ.get("SECRET_KEY") else secret_key
 
 """App init and config"""
 app = Flask(__name__)
