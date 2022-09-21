@@ -44,12 +44,16 @@ db_password = "password"
 
 # Flask session secret key
 secret_key = ""  # paste the generated hex into the string
+
+# Admin password
+admin_password = "password"
 ```
 
 OR set credentials as environment variables:
 ```
 $ export SECRET_KEY=  # paste the generated hex
 $ export DATABASE_URL=  # your database URL
+$ export ADMIN_PASSWORD=  # your admin user password
 ```
 
 - Run the database module to create the database tables, make sure that your database server is running:

@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 from flask_sqlalchemy import SQLAlchemy
@@ -93,5 +94,24 @@ if __name__ == "__main__":
         # or your database name
     """
     from app import app
+    from werkzeug.security import generate_password_hash
+
+    try:  # just for my local tests
+        from credentials import admin_password
+        ADMIN_PASSWORD = admin_password
+    except ModuleNotFoundError:
+        ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
+
     with app.app_context():
         db.create_all()  # Should be run once to create the table once
+
+        # add admin user
+        admin = User(
+                username="admin",
+                arabic_username="أدمن",
+                hash=generate_password_hash(ADMIN_PASSWORD),
+                phone="0",
+                is_admin=True
+                )
+        db.session.add(admin)
+        db.session.commit()
