@@ -447,15 +447,19 @@ def history():
         participants.remove(leader.arabic_username)
 
         rides_data.append({
+                "id": ride.id,
+                "notes": ride.ride_notes,
+                "type": ride.ride_type,
                 "weekday": WEEKDAYS_EN[assembly_datetime.weekday()],  # won't use strftime for arabic support later
                 "date": assembly_datetime.strftime("%d/%m/%Y"),
-                "type": ride.ride_type,
                 "assembly_time": assembly_datetime.strftime("%I:%M %p"),
                 "moving_time": moving_datetime.strftime("%I:%M %p"),
                 "route": ride.course,
                 "distance": ride.distance,
-                "speed": f"{ride.max_speed}-{ride.min_speed}",
+                "max_speed": ride.max_speed,
+                "min_speed": ride.min_speed,
                 "leader": leader,
+                "participants": participants
                 })
 
     return render_template("history.html", rides=rides_data)

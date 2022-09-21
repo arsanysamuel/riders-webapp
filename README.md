@@ -58,7 +58,7 @@ $ cd flaskr/modules/
 $ python database.py
 ```
 
-- Run app.py for development or testing or deploy the application.
+- Run main.py for development or testing or deploy the application.
 
 
 ## Deployment

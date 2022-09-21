@@ -26,8 +26,8 @@
                             <hr>
 
                             <!-- Notes -->
-                            {% if ride["ride_notes"]|length > 0 %}
-                                <p>{{ ride["ride_notes"] }}</p>
+                            {% if ride["notes"]|length > 0 %}
+                                <p>{{ ride["notes"] }}</p>
                                 <hr>
                             {% endif %}
 
@@ -36,6 +36,10 @@
                             <hr>
 
                             <!-- Info -->
+                            <p>
+                                Assembly time: {{ ride["assembly_time"] }}<br>
+                                Moving time: {{ ride["moving_time"] }}
+                            </p>
                             <p>
                                 Maximum speed: {{ ride["max_speed"] }}km/h<br>
                                 Minimum speed: {{ ride["min_speed"] }}km/h
