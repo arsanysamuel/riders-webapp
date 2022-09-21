@@ -141,7 +141,8 @@ def register():
                     arabic_username=request.form.get("arabic"),
                     hash=generate_password_hash(password),
                     email=email,
-                    phone="+2" + phone  # country code prefix
+                    phone="+2" + phone,  # country code prefix
+                    created_datetime=time.time()
                     )
         db.session.add(user)
         db.session.commit()

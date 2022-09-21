@@ -35,6 +35,7 @@ def route_format(s):
     """Formats route segments with Awsome Fonts icons"""
     arabic = re.compile(REGEX["arabic"])
     if len(arabic.findall(s)) > 0:
+        print(arabic.findall((s)))
         return Markup(s.replace("|", ' <i class="fa-solid fa-arrow-left"></i> '))
     return Markup(s.replace("|", ' <i class="fa-solid fa-arrow-right"></i> '))
 
