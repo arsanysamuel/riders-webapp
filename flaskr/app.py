@@ -11,7 +11,7 @@ from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from modules.database import db, User, Ride, Lead, Participation
-from modules.helpers import error, login_required, route_format
+from modules.helpers import login_required, route_format
 from modules.regex import REGEX
 
 try:  # just for my local tests
@@ -55,6 +55,17 @@ def after_request(response):
     response.headers["Expires"] = 0
     response.headers["Pragma"] = "no-cache"
     return response
+
+
+@app.errorhandler(400)
+def bad_request(e):
+    return render_template("errors/400.html", msg=e.description), 400
+
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template("errors/403.html", msg=e.description), 403
+
 
 @app.errorhandler(404)
 def not_found(e):
@@ -110,30 +121,30 @@ def register():
         # Check username
         username_re = re.compile(REGEX["username"])
         if not username_re.fullmatch(username):
-            return error("Invalid Username", 400)
+            return abort(400, "Invalid Username")
         elif len(User.query.filter_by(username=username).all()) > 0:
-            return error("Username already exists", 400)
+            return abort(400, "Username already exists")
 
         # Check phone number
         phone_re = re.compile(REGEX["phone"])
         if not phone_re.fullmatch(phone):
-            return error("Invalid phone number format", 400)
+            return abort(400, "Invalid phone number format")
 
         # Check email
         email_re = re.compile(REGEX["email"])
         if not email_re.fullmatch(email):
-            return error("Invalid email format", 400)
+            return abort(400, "Invalid email format")
 
         # Check password
         password_re = re.compile(REGEX["password"])
         if not password_re.fullmatch(password):
-            return error("Invalid password, try again.", 400)
+            return abort(400, "Invalid password, try again.")
         elif password != confirmation:
-            return error("Password Mismatch", 400)
+            return abort(400, "Password Mismatch")
 
         # Check rules accepted
         if not accepted:
-            return error("You must read and accept the group rules", 400)
+            return abort(400, "You must read and accept the group rules")
 
         # Register user
         user = User(
@@ -189,13 +200,11 @@ def login():
         # Check username
         user = User.query.filter_by(username=request.form.get("username")).first()
         if not user:
-            # return error("Username not found", 400)
             flash("Username doesn't exist", "danger")
             return redirect("/login")
 
         # Check password
         if not check_password_hash(user.hash, request.form.get("password")):
-            # return error("Invalid password", 400)
             flash("Incorrect password", "danger")
             return redirect("/login")
 
@@ -229,12 +238,12 @@ def create():
     if request.method == "POST":
         # Check rules accepted
         if not request.form.get("accept"):
-            return error("You must read and accept the group rules", 400)
+            return abort(400, "You must read and accept the group rules")
 
         # Format route segments
         route_list = request.form.getlist("route[]")
         if len(route_list) == 0:
-            return error("Route list is empty", 400)
+            return abort(400, "Route list is empty")
         route = "|".join(route_list)
 
         # Convert ride times to unix epochs
@@ -404,6 +413,10 @@ def cancel_ride():
     ride = Ride.query.filter_by(id=ride_id).first()
     lead = Lead.query.filter_by(ride_id=ride_id).first()
     participations = Participation.query.filter_by(ride_id=ride_id).all()
+
+    # Validations
+    if session["user_id"] != lead.leader_id or not session["user"].is_admin:
+        abort(403, "Must be the ride leader or an admin in order to cancel the ride.")
 
     # Delete all
     if lead:
