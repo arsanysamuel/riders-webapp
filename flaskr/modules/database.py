@@ -19,6 +19,7 @@ class User(db.Model):
     phone = db.Column(db.String(13), unique=True, nullable=False)
     rides = db.Column(db.Integer, default=0)
     created_datetime = db.Column(db.BIGINT, default=time.time())
+    approved = db.Column(db.Boolean, nullable=False, default=False)
     is_admin = db.Column(db.Boolean, default=False)
 
     created_rides = db.relationship("Ride", back_populates="creator")
@@ -111,6 +112,7 @@ if __name__ == "__main__":
                 arabic_username="أدمن",
                 hash=generate_password_hash(ADMIN_PASSWORD),
                 phone="0",
+                approved=True,
                 is_admin=True
                 )
         db.session.add(admin)
