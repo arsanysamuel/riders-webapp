@@ -6,5 +6,4 @@ backup/
 __pycache__/
 
 flaskr/credentials.py
-flaskr/config.py
 

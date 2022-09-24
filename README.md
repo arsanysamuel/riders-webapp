@@ -45,7 +45,7 @@ db_password = "password"
 # Flask session secret key
 secret_key = ""  # paste the generated hex into the string
 
-# Admin password
+# Admin app user password
 admin_password = "password"
 ```
 
