@@ -2,6 +2,7 @@
 Cycling rides web app
 """
 import os
+import sys
 import time
 import datetime
 import re
@@ -20,8 +21,12 @@ try:  # just for my local tests
     SECRET_KEY = secret_key
     DATABASE_URL = DATABASE_URI
 except ModuleNotFoundError:
-    SECRET_KEY = os.environ["SECRET_KEY"]
-    DATABASE_URL = os.environ["DATABASE_URL"]
+    try:
+        SECRET_KEY = os.environ["SECRET_KEY"]
+        DATABASE_URL = os.environ["DATABASE_URL"]
+    except KeyError:
+            print("ERROR: no credentials file or env credentials found, check the README file for more info.")
+            sys.exit()
 
 
 """Global Variables"""
