@@ -1,3 +1,6 @@
+'''
+Config file for local tests
+'''
 import credentials
 
 # Database Variables
