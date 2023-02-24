@@ -65,11 +65,6 @@ $ python database.py
 - Run main.py for development or testing or deploy the application.
 
 
-## Deployment
-
-Will be added soon
-
-
 ## License
 
 This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) - see the [LICENSE](LICENSE) file for details
